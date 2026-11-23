@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Attendance Tracker - Redirecting...</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <script src="js/storage.js"></script>
+  <script>
+    // Immediate auth routing
+    (function () {
+      const user = AttendanceStore.getCurrentUser();
+      if (user) {
+        window.location.replace('dashboard.html');
+      } else {
+        window.location.replace('login.html');
+      }
+    })();
+  </script>
+</head>
+<body style="font-family: sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f8fafc;">
+  <div style="text-align: center; color: #64748b;">
+    <p>Loading Smart Attendance Tracker...</p>
+    <a href="login.html" style="color: #2563eb;">Click here if not redirected automatically</a>
+  </div>
+</body>
+</html>

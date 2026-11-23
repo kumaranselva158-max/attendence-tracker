@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management - Smart Attendance Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.svg" alt="SmartAttend Logo" class="brand-logo-img">
+        <div class="brand-text-wrap">
+          <div class="brand-title">
+            <span class="app-title-text">SmartAttend</span>
+            <span class="pro-tag">Pro</span>
+          </div>
+          <div class="brand-sub app-inst-text">Apex Institute</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main Menu</div>
+        <a href="dashboard.html" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="students.html" class="nav-link active">
+          <i class="fa-solid fa-user-graduate"></i>
+          <span>Student Management</span>
+        </a>
+        <a href="attendance.html" class="nav-link">
+          <i class="fa-solid fa-clipboard-check"></i>
+          <span>Mark Attendance</span>
+        </a>
+        <a href="history.html" class="nav-link">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Attendance History</span>
+        </a>
+        <a href="analytics.html" class="nav-link">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Attendance Analytics</span>
+        </a>
+        <a href="reports.html" class="nav-link">
+          <i class="fa-solid fa-file-invoice"></i>
+          <span>Reports</span>
+        </a>
+
+        <div class="nav-section-title">System</div>
+        <a href="notifications.html" class="nav-link">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications</span>
+          <span class="badge-counter notif-badge-counter" style="display: none;">0</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+        <a href="#" class="nav-link btn-action-logout" style="color: var(--status-absent);">
+          <i class="fa-solid fa-right-from-bracket" style="color: var(--status-absent);"></i>
+          <span>Logout</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="user-avatar-badge user-avatar-display">RV</div>
+          <div class="user-info">
+            <div class="user-name user-name-display">Dr. Robert Vance</div>
+            <div class="user-role user-role-display">Head Administrator</div>
+          </div>
+          <button class="btn-sidebar-logout btn-action-logout" title="Sign out">
+            <i class="fa-solid fa-power-off"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-navbar">
+        <div class="top-navbar-left">
+          <button type="button" id="btnMobileSidebar" class="btn-sidebar-toggle" title="Toggle drawer">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="page-title">Student Directory & Profiles</h1>
+            <span class="page-subtitle">Manage enrolled students, contact info, and monitor student-level metrics</span>
+          </div>
+        </div>
+
+        <div class="top-navbar-right">
+          <div id="liveClockTicker" class="live-clock-badge">
+            <i class="fa-regular fa-clock"></i> Loading clock...
+          </div>
+          <button type="button" id="btnThemeToggle" class="btn-icon-action" title="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <a href="notifications.html" class="btn-icon-action" title="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notif-dot notif-badge-counter" style="display: none;"></span>
+          </a>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Filter and Search Toolbar -->
+        <div class="filter-bar">
+          <div class="filter-group-left">
+            <div class="search-input-wrap">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input 
+                type="text" 
+                id="searchStudentsInput" 
+                class="form-control" 
+                placeholder="Search by student name, roll no, or ID..."
+              >
+            </div>
+
+            <!-- Department Filter -->
+            <select id="filterDepartment" class="filter-select">
+              <option value="All">All Departments</option>
+            </select>
+
+            <!-- Year Filter -->
+            <select id="filterYear" class="filter-select">
+              <option value="All">All Years</option>
+            </select>
+
+            <!-- Section Filter -->
+            <select id="filterSection" class="filter-select">
+              <option value="All">All Sections</option>
+            </select>
+          </div>
+
+          <div class="filter-group-right">
+            <span id="totalStudentsBadge" class="status-badge" style="background: var(--bg-surface-alt); color: var(--text-secondary); border: 1px solid var(--border-light); font-size: 0.85rem; padding: 0.45rem 0.85rem;">
+              0 Students
+            </span>
+            <button type="button" id="btnOpenAddStudent" class="btn btn-primary">
+              <i class="fa-solid fa-user-plus"></i> Add New Student
+            </button>
+          </div>
+        </div>
+
+        <!-- Student Table Card -->
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Student ID</th>
+                  <th>Student Name</th>
+                  <th>Department</th>
+                  <th>Year</th>
+                  <th>Section</th>
+                  <th>Roll Number</th>
+                  <th>Contact</th>
+                  <th>Attendance %</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentsTableBody">
+                <!-- Dynamically Rendered Rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Add / Edit Student Modal -->
+  <div id="studentModal" class="modal-backdrop">
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 id="studentModalTitle" class="modal-title">
+          <i class="fa-solid fa-user-plus"></i> Add New Student
+        </h3>
+        <button type="button" id="btnCloseStudentModal" class="btn-close-modal">&times;</button>
+      </div>
+
+      <form id="studentForm">
+        <input type="hidden" id="isEditMode" value="false">
+
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="stuId" class="form-label">Student ID *</label>
+              <input type="text" id="stuId" class="form-control" placeholder="e.g. STU1029" required>
+            </div>
+            <div class="form-group">
+              <label for="stuRoll" class="form-label">Roll Number *</label>
+              <input type="text" id="stuRoll" class="form-control" placeholder="e.g. CSE-24-001" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="stuName" class="form-label">Full Name *</label>
+            <input type="text" id="stuName" class="form-control" placeholder="e.g. Jennifer Miller" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="stuDepartment" class="form-label">Department *</label>
+              <select id="stuDepartment" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label for="stuYear" class="form-label">Year of Study *</label>
+              <select id="stuYear" class="form-control" required></select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="stuSection" class="form-label">Section *</label>
+              <select id="stuSection" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+              <label for="stuGender" class="form-label">Gender</label>
+              <select id="stuGender" class="form-control">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="stuContact" class="form-label">Contact Number</label>
+              <input type="tel" id="stuContact" class="form-control" placeholder="+1 (555) 000-0000">
+            </div>
+            <div class="form-group">
+              <label for="stuEmail" class="form-label">Institutional Email</label>
+              <input type="email" id="stuEmail" class="form-control" placeholder="student@apex.edu">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btnCancelStudentModal" class="btn btn-secondary">Cancel</button>
+          <button type="submit" id="btnSaveStudentSubmit" class="btn btn-primary">
+            <i class="fa-solid fa-check"></i> Save Student
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Student Profile & History Modal -->
+  <div id="profileModal" class="modal-backdrop">
+    <div class="modal-container" style="max-width: 720px;">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <i class="fa-solid fa-id-card"></i> Student Attendance Profile
+        </h3>
+        <button type="button" id="btnCloseProfileModal" class="btn-close-modal">&times;</button>
+      </div>
+      <div class="modal-body" id="profileDetailsContainer">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/students.js"></script>
+</body>
+</html>

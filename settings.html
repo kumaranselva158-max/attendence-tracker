@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Smart Attendance Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.svg" alt="SmartAttend Logo" class="brand-logo-img">
+        <div class="brand-text-wrap">
+          <div class="brand-title">
+            <span class="app-title-text">SmartAttend</span>
+            <span class="pro-tag">Pro</span>
+          </div>
+          <div class="brand-sub app-inst-text">Apex Institute</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main Menu</div>
+        <a href="dashboard.html" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="students.html" class="nav-link">
+          <i class="fa-solid fa-user-graduate"></i>
+          <span>Student Management</span>
+        </a>
+        <a href="attendance.html" class="nav-link">
+          <i class="fa-solid fa-clipboard-check"></i>
+          <span>Mark Attendance</span>
+        </a>
+        <a href="history.html" class="nav-link">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Attendance History</span>
+        </a>
+        <a href="analytics.html" class="nav-link">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Attendance Analytics</span>
+        </a>
+        <a href="reports.html" class="nav-link">
+          <i class="fa-solid fa-file-invoice"></i>
+          <span>Reports</span>
+        </a>
+
+        <div class="nav-section-title">System</div>
+        <a href="notifications.html" class="nav-link">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications</span>
+          <span class="badge-counter notif-badge-counter" style="display: none;">0</span>
+        </a>
+        <a href="settings.html" class="nav-link active">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+        <a href="#" class="nav-link btn-action-logout" style="color: var(--status-absent);">
+          <i class="fa-solid fa-right-from-bracket" style="color: var(--status-absent);"></i>
+          <span>Logout</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="user-avatar-badge user-avatar-display">RV</div>
+          <div class="user-info">
+            <div class="user-name user-name-display">Dr. Robert Vance</div>
+            <div class="user-role user-role-display">Head Administrator</div>
+          </div>
+          <button class="btn-sidebar-logout btn-action-logout" title="Sign out">
+            <i class="fa-solid fa-power-off"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-navbar">
+        <div class="top-navbar-left">
+          <button type="button" id="btnMobileSidebar" class="btn-sidebar-toggle">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="page-title">System Preferences & Settings</h1>
+            <span class="page-subtitle">Configure institution branding, attendance policies, departments, and backups</span>
+          </div>
+        </div>
+
+        <div class="top-navbar-right">
+          <div id="liveClockTicker" class="live-clock-badge">
+            <i class="fa-regular fa-clock"></i> Loading clock...
+          </div>
+          <button type="button" id="btnThemeToggle" class="btn-icon-action" title="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <a href="notifications.html" class="btn-icon-action" title="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notif-dot notif-badge-counter" style="display: none;"></span>
+          </a>
+        </div>
+      </header>
+
+      <main class="content-body" style="max-width: 1000px;">
+        <!-- General Institutional Settings -->
+        <div class="card" style="margin-bottom: 1.75rem;">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title">
+                <i class="fa-solid fa-school" style="color: var(--primary);"></i>
+                Institutional Identity & Compliance
+              </h3>
+              <p class="card-subtitle">Global settings applied to reports, headers, and threshold warnings</p>
+            </div>
+          </div>
+
+          <form id="settingsGeneralForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="settingAppName" class="form-label">Application Display Name</label>
+                <input type="text" id="settingAppName" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="settingAcademicYear" class="form-label">Current Academic Year</label>
+                <input type="text" id="settingAcademicYear" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="settingInstName" class="form-label">College / Institute Full Name</label>
+                <input type="text" id="settingInstName" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="settingThreshold" class="form-label">
+                  <span>Mandatory Cutoff Threshold (%)</span>
+                  <span style="font-size: 0.75rem; color: var(--status-absent); font-weight: 700;">Defaulter trigger</span>
+                </label>
+                <input type="number" id="settingThreshold" class="form-control" min="50" max="95" required>
+              </div>
+            </div>
+
+            <!-- Attendance Policy Calculation Rules -->
+            <div style="margin-top: 1rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light);">
+              <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.75rem;">
+                <i class="fa-solid fa-scale-balanced" style="color: var(--primary);"></i>
+                Attendance Computation Rules
+              </h4>
+
+              <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+                <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; font-size: 0.9rem;">
+                  <input type="checkbox" id="settingODPresent" style="width: 18px; height: 18px; accent-color: var(--primary);">
+                  <div>
+                    <strong>Count "On Duty (OD)" as Present</strong>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);">Students approved for events, conferences, or sports meets will not lose attendance percentage.</div>
+                  </div>
+                </label>
+
+                <label style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; font-size: 0.9rem;">
+                  <input type="checkbox" id="settingLeavePresent" style="width: 18px; height: 18px; accent-color: var(--primary);">
+                  <div>
+                    <strong>Count "Approved Medical Leave" as Present</strong>
+                    <div style="font-size: 0.78rem; color: var(--text-muted);">Excused medical leave entries count towards effective present attendance.</div>
+                  </div>
+                </label>
+
+                <div class="form-group" style="margin-top: 0.5rem; max-width: 450px;">
+                  <label for="settingLateRule" class="form-label">Late Arrival Penalty Calculation</label>
+                  <select id="settingLateRule" class="form-control">
+                    <option value="3_to_1">Strict: 3 Late marks = 1 Unexcused Absence penalty</option>
+                    <option value="half">Moderate: Each Late mark counts as 0.5 Day Present</option>
+                    <option value="ignore">Lenient: Late mark counts as Full Day Present</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Interface Theme Radio -->
+            <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border-light);">
+              <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.75rem;">
+                <i class="fa-solid fa-palette" style="color: var(--primary);"></i>
+                Theme & Interface Appearance
+              </h4>
+              <div style="display: flex; gap: 1.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem;">
+                  <input type="radio" name="appTheme" id="themeRadioLight" value="light" style="accent-color: var(--primary);">
+                  <span><i class="fa-solid fa-sun" style="color: #f59e0b;"></i> Clean Light Mode</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem;">
+                  <input type="radio" name="appTheme" id="themeRadioDark" value="dark" style="accent-color: var(--primary);">
+                  <span><i class="fa-solid fa-moon" style="color: #6366f1;"></i> Modern Dark Mode</span>
+                </label>
+              </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; text-align: right;">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-check"></i> Save Global Configuration
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Academic Departments Management -->
+        <div class="card" style="margin-bottom: 1.75rem;">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title">
+                <i class="fa-solid fa-building-columns" style="color: var(--primary);"></i>
+                Departments Directory
+              </h3>
+              <p class="card-subtitle">Manage academic branches available across student enrollments and filters</p>
+            </div>
+          </div>
+
+          <div id="departmentsListContainer" style="display: flex; flex-wrap: wrap; gap: 0.65rem; margin-bottom: 1.25rem;">
+            <!-- Rendered via JS -->
+          </div>
+
+          <div style="display: flex; gap: 0.75rem; max-width: 480px;">
+            <input type="text" id="inputNewDepartment" class="form-control" placeholder="New Department Name (e.g. Chemical Engineering)">
+            <button type="button" id="btnAddDepartment" class="btn btn-secondary">
+              <i class="fa-solid fa-plus"></i> Add
+            </button>
+          </div>
+        </div>
+
+        <!-- Data Management & Backups -->
+        <div class="card">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title">
+                <i class="fa-solid fa-database" style="color: var(--primary);"></i>
+                Data Operations & LocalStorage Backup
+              </h3>
+              <p class="card-subtitle">Export JSON backup copies, restore data, or re-seed complete demo records</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+            <!-- Export JSON -->
+            <div style="background: var(--bg-surface-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+              <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">Export Data Backup</h4>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Download a complete JSON snapshot containing all students, classes, attendance records, and settings.</p>
+              <button type="button" id="btnExportBackup" class="btn btn-outline btn-sm">
+                <i class="fa-solid fa-download"></i> Download Backup (.json)
+              </button>
+            </div>
+
+            <!-- Import JSON -->
+            <div style="background: var(--bg-surface-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+              <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.35rem;">Restore from Backup</h4>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Upload a previously saved SmartAttend JSON backup file to restore records.</p>
+              <input type="file" id="fileImportBackup" accept=".json" style="font-size: 0.82rem;">
+            </div>
+          </div>
+
+          <!-- Seed / Clear Row -->
+          <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 1.25rem; border-top: 1px solid var(--border-light); flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <button type="button" id="btnSeedDemoData" class="btn btn-outline" style="color: var(--primary); border-color: rgba(37, 99, 235, 0.4);">
+                <i class="fa-solid fa-rotate"></i> Reset & Re-Seed Sample Demo Data
+              </button>
+              <span style="font-size: 0.78rem; color: var(--text-muted); margin-left: 0.5rem;">Restores 28 students, 16 days of sessions, and defaulters</span>
+            </div>
+
+            <div>
+              <button type="button" id="btnClearAttendanceRecords" class="btn btn-outline btn-sm" style="color: var(--status-absent); border-color: rgba(239, 68, 68, 0.3);">
+                <i class="fa-regular fa-trash-can"></i> Clear All Attendance History
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/settings.js"></script>
+</body>
+</html>

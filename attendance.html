@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mark Attendance - Smart Attendance Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.svg" alt="SmartAttend Logo" class="brand-logo-img">
+        <div class="brand-text-wrap">
+          <div class="brand-title">
+            <span class="app-title-text">SmartAttend</span>
+            <span class="pro-tag">Pro</span>
+          </div>
+          <div class="brand-sub app-inst-text">Apex Institute</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main Menu</div>
+        <a href="dashboard.html" class="nav-link">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="students.html" class="nav-link">
+          <i class="fa-solid fa-user-graduate"></i>
+          <span>Student Management</span>
+        </a>
+        <a href="attendance.html" class="nav-link active">
+          <i class="fa-solid fa-clipboard-check"></i>
+          <span>Mark Attendance</span>
+        </a>
+        <a href="history.html" class="nav-link">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Attendance History</span>
+        </a>
+        <a href="analytics.html" class="nav-link">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Attendance Analytics</span>
+        </a>
+        <a href="reports.html" class="nav-link">
+          <i class="fa-solid fa-file-invoice"></i>
+          <span>Reports</span>
+        </a>
+
+        <div class="nav-section-title">System</div>
+        <a href="notifications.html" class="nav-link">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications</span>
+          <span class="badge-counter notif-badge-counter" style="display: none;">0</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+        <a href="#" class="nav-link btn-action-logout" style="color: var(--status-absent);">
+          <i class="fa-solid fa-right-from-bracket" style="color: var(--status-absent);"></i>
+          <span>Logout</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="user-avatar-badge user-avatar-display">RV</div>
+          <div class="user-info">
+            <div class="user-name user-name-display">Dr. Robert Vance</div>
+            <div class="user-role user-role-display">Head Administrator</div>
+          </div>
+          <button class="btn-sidebar-logout btn-action-logout" title="Sign out">
+            <i class="fa-solid fa-power-off"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-wrapper">
+      <header class="top-navbar">
+        <div class="top-navbar-left">
+          <button type="button" id="btnMobileSidebar" class="btn-sidebar-toggle">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="page-title">Daily Attendance Marker</h1>
+            <span class="page-subtitle">Select classroom, mark attendance statuses, and submit verified records</span>
+          </div>
+        </div>
+
+        <div class="top-navbar-right">
+          <div id="liveClockTicker" class="live-clock-badge">
+            <i class="fa-regular fa-clock"></i> Loading clock...
+          </div>
+          <button type="button" id="btnThemeToggle" class="btn-icon-action" title="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+          <a href="notifications.html" class="btn-icon-action" title="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notif-dot notif-badge-counter" style="display: none;"></span>
+          </a>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Class & Date Selector Card -->
+        <div class="card" style="margin-bottom: 1.5rem;">
+          <div class="form-row" style="align-items: flex-end;">
+            <!-- Attendance Date -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="attendanceDate" class="form-label">
+                <span><i class="fa-regular fa-calendar" style="color: var(--primary);"></i> Attendance Date</span>
+                <span style="display: flex; gap: 0.35rem;">
+                  <button type="button" id="btnQuickToday" class="btn btn-outline btn-sm" style="padding: 0.15rem 0.45rem; font-size: 0.72rem;">Today</button>
+                  <button type="button" id="btnQuickYesterday" class="btn btn-outline btn-sm" style="padding: 0.15rem 0.45rem; font-size: 0.72rem;">Yesterday</button>
+                </span>
+              </label>
+              <input type="date" id="attendanceDate" class="form-control" required>
+            </div>
+
+            <!-- Department -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="attendanceDept" class="form-label">
+                <span><i class="fa-solid fa-building-columns" style="color: var(--primary);"></i> Department</span>
+              </label>
+              <select id="attendanceDept" class="form-control"></select>
+            </div>
+
+            <!-- Year of Study -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="attendanceYear" class="form-label">
+                <span><i class="fa-solid fa-graduation-cap" style="color: var(--primary);"></i> Academic Year</span>
+              </label>
+              <select id="attendanceYear" class="form-control"></select>
+            </div>
+
+            <!-- Section -->
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="attendanceSection" class="form-label">
+                <span><i class="fa-solid fa-layer-group" style="color: var(--primary);"></i> Section</span>
+              </label>
+              <select id="attendanceSection" class="form-control"></select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Duplicate Record Warning Notice -->
+        <div id="duplicateWarningNotice" class="status-badge warning" style="display: none; width: 100%; padding: 0.85rem 1.25rem; border-radius: var(--radius-md); font-size: 0.85rem; margin-bottom: 1.25rem; text-align: left; text-transform: none; font-weight: 500; align-items: center; gap: 0.75rem;">
+          <!-- Populated via JS -->
+        </div>
+
+        <!-- Realtime Tally Counter Strip -->
+        <div class="attendance-summary-strip">
+          <div class="tally-item">
+            <span style="color: var(--text-muted);">Enrolled:</span>
+            <span id="tallyTotal" class="tally-badge" style="background: var(--bg-surface); border: 1px solid var(--border-light);">0</span>
+          </div>
+          <div class="tally-item">
+            <span style="color: var(--status-present-text);"><i class="fa-solid fa-check"></i> Present:</span>
+            <span id="tallyPresent" class="tally-badge" style="background: var(--status-present-soft); color: var(--status-present-text);">0</span>
+          </div>
+          <div class="tally-item">
+            <span style="color: var(--status-absent-text);"><i class="fa-solid fa-xmark"></i> Absent:</span>
+            <span id="tallyAbsent" class="tally-badge" style="background: var(--status-absent-soft); color: var(--status-absent-text);">0</span>
+          </div>
+          <div class="tally-item">
+            <span style="color: var(--status-late-text);"><i class="fa-regular fa-clock"></i> Late:</span>
+            <span id="tallyLate" class="tally-badge" style="background: var(--status-late-soft); color: var(--status-late-text);">0</span>
+          </div>
+          <div class="tally-item">
+            <span style="color: var(--status-od-text);"><i class="fa-solid fa-briefcase"></i> On Duty:</span>
+            <span id="tallyOD" class="tally-badge" style="background: var(--status-od-soft); color: var(--status-od-text);">0</span>
+          </div>
+          <div class="tally-item">
+            <span style="color: var(--status-leave-text);"><i class="fa-solid fa-envelope-open-text"></i> Leave:</span>
+            <span id="tallyLeave" class="tally-badge" style="background: var(--status-leave-soft); color: var(--status-leave-text);">0</span>
+          </div>
+          <div class="tally-item">
+            <span style="color: var(--primary);">Attendance Rate:</span>
+            <span id="tallyPercentage" class="tally-badge" style="background: var(--primary-soft); color: var(--primary); font-size: 0.95rem;">0%</span>
+          </div>
+        </div>
+
+        <!-- Batch Controls & Actions Bar -->
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <button type="button" id="btnMarkAllPresent" class="btn btn-outline btn-sm" style="color: var(--status-present); border-color: rgba(16, 185, 129, 0.4);">
+              <i class="fa-solid fa-check-double"></i> Mark All Present
+            </button>
+            <button type="button" id="btnMarkAllAbsent" class="btn btn-outline btn-sm" style="color: var(--status-absent); border-color: rgba(239, 68, 68, 0.4);">
+              <i class="fa-solid fa-user-xmark"></i> Mark All Absent
+            </button>
+            <button type="button" id="btnResetMarking" class="btn btn-outline btn-sm">
+              <i class="fa-solid fa-rotate-left"></i> Reset
+            </button>
+          </div>
+
+          <div>
+            <button type="button" id="btnSaveAttendance" class="btn btn-primary btn-lg" style="box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);">
+              <i class="fa-solid fa-floppy-disk"></i> Save Attendance Record
+            </button>
+          </div>
+        </div>
+
+        <!-- Marking Table -->
+        <div class="card" style="padding: 0; overflow: hidden;">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th style="width: 45px;">#</th>
+                  <th>Roll Number</th>
+                  <th>Student Info</th>
+                  <th style="min-width: 380px;">Mark Status</th>
+                  <th>Remarks / Notes</th>
+                </tr>
+              </thead>
+              <tbody id="markingTableBody">
+                <!-- Dynamically Rendered Rows -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/attendance.js"></script>
+</body>
+</html>

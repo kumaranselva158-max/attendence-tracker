@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Smart Attendance Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <div class="sidebar-backdrop"></div>
+
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.svg" alt="SmartAttend Logo" class="brand-logo-img">
+        <div class="brand-text-wrap">
+          <div class="brand-title">
+            <span class="app-title-text">SmartAttend</span>
+            <span class="pro-tag">Pro</span>
+          </div>
+          <div class="brand-sub app-inst-text">Apex Institute</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Main Menu</div>
+        <a href="dashboard.html" class="nav-link active">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </a>
+        <a href="students.html" class="nav-link">
+          <i class="fa-solid fa-user-graduate"></i>
+          <span>Student Management</span>
+        </a>
+        <a href="attendance.html" class="nav-link">
+          <i class="fa-solid fa-clipboard-check"></i>
+          <span>Mark Attendance</span>
+        </a>
+        <a href="history.html" class="nav-link">
+          <i class="fa-solid fa-clock-rotate-left"></i>
+          <span>Attendance History</span>
+        </a>
+        <a href="analytics.html" class="nav-link">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Attendance Analytics</span>
+        </a>
+        <a href="reports.html" class="nav-link">
+          <i class="fa-solid fa-file-invoice"></i>
+          <span>Reports</span>
+        </a>
+
+        <div class="nav-section-title">System</div>
+        <a href="notifications.html" class="nav-link">
+          <i class="fa-solid fa-bell"></i>
+          <span>Notifications</span>
+          <span class="badge-counter notif-badge-counter" style="display: none;">0</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <i class="fa-solid fa-gear"></i>
+          <span>Settings</span>
+        </a>
+        <a href="#" class="nav-link btn-action-logout" style="color: var(--status-absent);">
+          <i class="fa-solid fa-right-from-bracket" style="color: var(--status-absent);"></i>
+          <span>Logout</span>
+        </a>
+      </nav>
+
+      <!-- User Profile at bottom -->
+      <div class="sidebar-footer">
+        <div class="user-profile-widget">
+          <div class="user-avatar-badge user-avatar-display">RV</div>
+          <div class="user-info">
+            <div class="user-name user-name-display">Dr. Robert Vance</div>
+            <div class="user-role user-role-display">Head Administrator</div>
+          </div>
+          <button class="btn-sidebar-logout btn-action-logout" title="Sign out">
+            <i class="fa-solid fa-power-off"></i>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Body -->
+    <div class="main-wrapper">
+      <!-- Top Navbar -->
+      <header class="top-navbar">
+        <div class="top-navbar-left">
+          <button type="button" id="btnMobileSidebar" class="btn-sidebar-toggle" title="Toggle navigation drawer">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="page-breadcrumb">
+            <h1 class="page-title">Executive Dashboard</h1>
+            <span class="page-subtitle">Realtime attendance monitoring and performance metrics</span>
+          </div>
+        </div>
+
+        <div class="top-navbar-right">
+          <div id="liveClockTicker" class="live-clock-badge">
+            <i class="fa-regular fa-clock"></i> Loading clock...
+          </div>
+
+          <!-- Theme Toggle Button -->
+          <button type="button" id="btnThemeToggle" class="btn-icon-action" title="Toggle theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- Notifications Icon -->
+          <a href="notifications.html" class="btn-icon-action" title="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notif-dot notif-badge-counter" style="display: none;"></span>
+          </a>
+        </div>
+      </header>
+
+      <main class="content-body">
+        <!-- Quick Action Hero Banner -->
+        <div class="quick-action-banner">
+          <div class="banner-text">
+            <h2>Welcome Back, <span class="user-name-display">Faculty</span>!</h2>
+            <p>Today is a scheduled academic day. Review today's attendance logs, monitor student shortages below 75%, or finalize classroom attendance.</p>
+          </div>
+          <div class="banner-actions">
+            <a href="attendance.html" class="btn btn-white">
+              <i class="fa-solid fa-clipboard-check"></i> Mark Today's Attendance
+            </a>
+            <a href="students.html" class="btn btn-outline" style="background: rgba(255, 255, 255, 0.15); color: #fff; border-color: rgba(255, 255, 255, 0.3);">
+              <i class="fa-solid fa-user-plus"></i> Add Student
+            </a>
+          </div>
+        </div>
+
+        <!-- 6 KPI Stat Cards -->
+        <div class="stats-grid">
+          <!-- Total Students -->
+          <div class="stat-card primary">
+            <div class="stat-content">
+              <span class="stat-label">Total Enrolled</span>
+              <span id="statTotalStudents" class="stat-value">0</span>
+              <span class="stat-sub">Across 5 departments</span>
+            </div>
+            <div class="stat-icon-wrap primary">
+              <i class="fa-solid fa-user-graduate"></i>
+            </div>
+          </div>
+
+          <!-- Today's Present -->
+          <div class="stat-card success">
+            <div class="stat-content">
+              <span class="stat-label">Present (Today)</span>
+              <span id="statTotalPresent" class="stat-value" style="color: var(--status-present);">0</span>
+              <span id="todayMarkedNote" class="stat-sub">Marked today</span>
+            </div>
+            <div class="stat-icon-wrap success">
+              <i class="fa-solid fa-user-check"></i>
+            </div>
+          </div>
+
+          <!-- Today's Absent -->
+          <div class="stat-card danger">
+            <div class="stat-content">
+              <span class="stat-label">Absent (Today)</span>
+              <span id="statTotalAbsent" class="stat-value" style="color: var(--status-absent);">0</span>
+              <span class="stat-sub"><span class="trend-down">&bull; Unexcused</span></span>
+            </div>
+            <div class="stat-icon-wrap danger">
+              <i class="fa-solid fa-user-xmark"></i>
+            </div>
+          </div>
+
+          <!-- Today's Late -->
+          <div class="stat-card warning">
+            <div class="stat-content">
+              <span class="stat-label">Late Arrivals</span>
+              <span id="statTotalLate" class="stat-value" style="color: var(--status-late);">0</span>
+              <span class="stat-sub">Grace rule applied</span>
+            </div>
+            <div class="stat-icon-wrap warning">
+              <i class="fa-regular fa-clock"></i>
+            </div>
+          </div>
+
+          <!-- Overall Attendance Percentage -->
+          <div class="stat-card primary">
+            <div class="stat-content">
+              <span class="stat-label">Overall Attendance</span>
+              <span id="statOverallPercentage" class="stat-value">0%</span>
+              <span class="stat-sub"><span class="trend-up"><i class="fa-solid fa-arrow-trend-up"></i> Campus Average</span></span>
+            </div>
+            <div class="stat-icon-wrap primary">
+              <i class="fa-solid fa-percent"></i>
+            </div>
+          </div>
+
+          <!-- Low Attendance Defaulters -->
+          <div class="stat-card danger">
+            <div class="stat-content">
+              <span class="stat-label">Defaulters (<75%)</span>
+              <span id="statDefaultersCount" class="stat-value" style="color: var(--status-absent);">0</span>
+              <span class="stat-sub"><a href="analytics.html" style="color: var(--status-absent); font-weight: 600;">View shortage list &rarr;</a></span>
+            </div>
+            <div class="stat-icon-wrap danger">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Charts Section -->
+        <div class="charts-grid-2">
+          <!-- Weekly Attendance Trend Chart -->
+          <div class="card">
+            <div class="card-header-row">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-chart-line" style="color: var(--primary);"></i>
+                  Weekly Attendance Trend
+                </h3>
+                <p class="card-subtitle">Daily campus attendance percentage over the past 7 working days</p>
+              </div>
+              <a href="analytics.html" class="btn btn-outline btn-sm">Full Analytics &rarr;</a>
+            </div>
+            <div class="chart-container">
+              <canvas id="weeklyAttendanceChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Today's Status Doughnut Chart -->
+          <div class="card">
+            <div class="card-header-row">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-chart-pie" style="color: var(--primary);"></i>
+                  Today's Breakdown
+                </h3>
+                <p class="card-subtitle">Distribution across attendance statuses</p>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="todayStatusChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Row: Department Comparison & Defaulters Alert -->
+        <div class="charts-grid-equal">
+          <!-- Department Bar Chart -->
+          <div class="card">
+            <div class="card-header-row">
+              <div>
+                <h3 class="card-title">
+                  <i class="fa-solid fa-building-columns" style="color: var(--primary);"></i>
+                  Department Attendance Comparison
+                </h3>
+                <p class="card-subtitle">Average attendance rate per academic department</p>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="deptComparisonChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Attendance Defaulters Warning Box -->
+          <div class="card">
+            <div class="card-header-row">
+              <div>
+                <h3 class="card-title" style="color: var(--status-absent);">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  Attendance Defaulter Alerts
+                </h3>
+                <p class="card-subtitle">Students below the mandatory 75% attendance cutoff</p>
+              </div>
+              <a href="analytics.html" class="btn btn-outline btn-sm" style="color: var(--status-absent);">Manage All</a>
+            </div>
+            <div id="defaultersListContainer" style="min-height: 250px;">
+              <!-- Dynamic Defaulters List -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity Feed -->
+        <div class="card" style="margin-top: 1.75rem;">
+          <div class="card-header-row">
+            <div>
+              <h3 class="card-title">
+                <i class="fa-solid fa-clock-rotate-left" style="color: var(--primary);"></i>
+                Recent Attendance Submissions
+              </h3>
+              <p class="card-subtitle">Latest attendance sessions recorded across faculties</p>
+            </div>
+            <a href="history.html" class="btn btn-outline btn-sm">View Complete History &rarr;</a>
+          </div>
+          <div id="recentActivityFeed">
+            <!-- Dynamic Feed Items -->
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Smart Attendance Tracker</title>
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body class="login-body">
+
+  <div class="login-card">
+    <div class="login-header">
+      <img src="assets/logo.svg" alt="SmartAttend Logo" class="login-logo">
+      <h1 class="login-title app-title-text">SmartAttend Pro</h1>
+      <p class="login-subtitle">Intelligent Attendance & Academic Monitoring System</p>
+    </div>
+
+    <!-- Error Alert Box -->
+    <div id="loginErrorAlert" class="status-badge absent" style="display: none; width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); font-size: 0.85rem; margin-bottom: 1.25rem; text-align: left; text-transform: none; font-weight: 500;">
+      <!-- Dynamic Error Message -->
+    </div>
+
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="loginUsername" class="form-label">
+          <span><i class="fa-regular fa-user" style="margin-right: 0.35rem; color: var(--primary);"></i> Username</span>
+        </label>
+        <input 
+          type="text" 
+          id="loginUsername" 
+          class="form-control" 
+          placeholder="Enter username (e.g. admin)" 
+          required 
+          autocomplete="username"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="loginPassword" class="form-label">
+          <span><i class="fa-solid fa-lock" style="margin-right: 0.35rem; color: var(--primary);"></i> Password</span>
+          <a href="#" onclick="alert('For demo purposes, use password: password123'); return false;" style="font-size: 0.78rem; font-weight: 500;">Forgot password?</a>
+        </label>
+        <div class="password-input-wrap">
+          <input 
+            type="password" 
+            id="loginPassword" 
+            class="form-control" 
+            placeholder="Enter password" 
+            required 
+            autocomplete="current-password"
+          >
+          <button type="button" id="btnTogglePassword" class="password-toggle-btn" title="Toggle password visibility">
+            <i class="fa-solid fa-eye"></i>
+          </button>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; margin: 1rem 0 1.5rem;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
+          <input type="checkbox" id="rememberMe" checked style="accent-color: var(--primary);"> Remember session
+        </label>
+      </div>
+
+      <button type="submit" id="btnLoginSubmit" class="btn btn-primary" style="width: 100%; padding: 0.8rem; font-size: 1rem;">
+        <i class="fa-solid fa-right-to-bracket"></i> Sign In to Portal
+      </button>
+    </form>
+
+    <!-- Demo Credentials Helper -->
+    <div class="demo-credentials-box">
+      <div class="demo-title">
+        <i class="fa-solid fa-flask-vial"></i> One-Click Demo Credentials
+      </div>
+      <div class="demo-btn-group">
+        <button type="button" id="btnFillAdmin" class="btn btn-outline btn-sm" style="flex: 1;">
+          <i class="fa-solid fa-user-shield"></i> Admin Demo
+        </button>
+        <button type="button" id="btnFillTeacher" class="btn btn-outline btn-sm" style="flex: 1;">
+          <i class="fa-solid fa-chalkboard-user"></i> Teacher Demo
+        </button>
+      </div>
+      <div style="font-size: 0.73rem; color: var(--text-muted); margin-top: 0.6rem; text-align: center;">
+        Admin: <code>admin</code> / <code>password123</code> &bull; Faculty: <code>teacher</code> / <code>password123</code>
+      </div>
+    </div>
+  </div>
+
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
